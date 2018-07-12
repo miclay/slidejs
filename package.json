@@ -1,5 +1,5 @@
 {
-  "name": "slidejs",
+  "name": "@miclay/slidejs",
   "description": "SlideJS实现分屏滚动功能，不依赖任何第三方库",
   "version": "1.0.0",
   "keywords": [
