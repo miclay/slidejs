@@ -1,18 +1,23 @@
-# Build and Release Folders
-bin-debug/
-bin-release/
-[Oo]bj/
-[Bb]in/
+##### user ######
+node_modules/
 
-# Other files and folders
-.settings/
+##### system ######
+.DS_Store*
+ehthumbs.db
+Thumbs.db
 
-# Executables
-*.swf
-*.air
-*.ipa
-*.apk
+##### IDE ######
+.project
+.settings
+.idea
+.idea/
 
-# Project files, i.e. `.project`, `.actionScriptProperties` and `.flexProperties`
-# should NOT be excluded as they contain compiler settings and other important
-# information for Eclipse / Flash Builder.
+##### Packages ######
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip

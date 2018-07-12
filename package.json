@@ -1,0 +1,28 @@
+{
+  "name": "slidejs",
+  "description": "SlideJS实现分屏滚动功能，不依赖任何第三方库",
+  "version": "1.0.0",
+  "keywords": [
+    "slide",
+    "slider",
+    "slidejs",
+    "sliderjs",
+    "jslide",
+    "jslider",
+    "slide.js",
+    "slider.js"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/miclay/slidejs.git"
+  },
+  "main": "./lib/index.js",
+  "devDependencies": {
+    "uglify-js": "^3.4.4"
+  },
+  "dependencies": {},
+  "scripts": {
+    "build": "uglifyjs ./src/index.js -o ./lib/index.js -c -m"
+  },
+  "license": "MIT"
+}
