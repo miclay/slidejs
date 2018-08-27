@@ -9,6 +9,7 @@ SlideJS实现分屏滚动功能，不依赖任何第三方库
   var slider = new SlideJS({
     parentSelector: '.slid-box', // 父容器的selector
     itemSelector: '.slid-item', // 每一屏的selector，确保为parentSelector下的子元素
+    itemDocSelector: '.box', // 每一屏内容文档(自适应高度)的selector，非必填，默认为itemSelector的子元素
     width: 800, // 宽度，默认取值为window.innerWidth
     height: 500, // 高度，默认取值为window.innerHeight
     transitionDuration: 500, // 翻屏动画时间，单位毫秒ms，默认值为500
