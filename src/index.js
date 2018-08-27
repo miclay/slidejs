@@ -20,7 +20,7 @@
       transitionDelay: 0, // 翻屏动画过渡效果延时，单位毫秒ms，默认值为0
       activeIndex: 0, // 当前展示第几屏，从0开始，默认值为0
       loop: false, // 是否循环翻屏，默认值为false
-      scrollSensitivity: 300,
+      scrollSensitivity: 300, // 滑屏敏感度，默认300ms
       beforeSlide: function() {},
       afterSlide: function() {},
     };
