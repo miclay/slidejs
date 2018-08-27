@@ -13,6 +13,7 @@
     this.opts = {
       parentSelector: '.slide-box', // 父容器的selector
       itemSelector: '.slide-item', // 每一屏的selector，确保为parentSelector下的子元素
+      itemDocSelector: null, // 每一屏内容文档(自适应高度)的selector，非必填，默认为itemSelector的子元素
       width: null, // 宽度，默认取值为window.innerWidth
       height: null, // 高度，默认取值为window.innerHeight
       transitionDuration: 500, // 翻屏动画时间，单位毫秒ms，默认值为500
@@ -77,12 +78,13 @@
 
       var isInnerContentScrolling = function(dirction) {
         var domItem = domSlidItems[that.activeIndex];
-        if (!domItem.children || !domItem.children.length) {
+        var domItemFirstChild = domItem.children && domItem.children.length ? domItem.children[0] : null;
+        var domItemContent = opts.itemDocSelector ? domItem.querySelector(opts.itemDocSelector) : domItemFirstChild;
+        if (!domItemContent) {
           return false;
         }
         var innerHeight = opts.height || window.innerHeight;
-        var domContent = domItem.children[0];
-        var contentHeight = domContent.clientHeight || 0;
+        var contentHeight = domItemContent.clientHeight || 0;
         if (contentHeight - innerHeight <= 0) {
           return false;
         }
