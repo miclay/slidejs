@@ -20,6 +20,7 @@
       transitionDelay: 0, // 翻屏动画过渡效果延时，单位毫秒ms，默认值为0
       activeIndex: 0, // 当前展示第几屏，从0开始，默认值为0
       loop: false, // 是否循环翻屏，默认值为false
+      scrollSensitivity: 300,
       beforeSlide: function() {},
       afterSlide: function() {},
     };
@@ -104,35 +105,31 @@
       var eventMouseWheel = function() {
         var mouseScrollHandler = function(e) {
           var wheelDelta = e.wheelDelta || -1 * e.detail;
+          // console.log('++++', wheelDelta);
           if (isInnerContentScrolling(wheelDelta)) {
             return;
           }
-          scrollTimeout = clearTimeout(scrollTimeout);
-          scrollTimeout = setTimeout(function() { // scrollTimeout避免重复调用
-            if (wheelDelta < 0) {
-              that.slideNext();
-            } else if (wheelDelta > 0) {
-              that.slidePrev();
-            }
-          }, 50);
+          if (wheelDelta < 0) {
+            that.slideNext();
+          } else if (wheelDelta > 0) {
+            that.slidePrev();
+          }
         };
 
         if (document.addEventListener) {
           document.addEventListener('DOMMouseScroll', mouseScrollHandler, false);
         }
         window.onmousewheel = document.onmousewheel = mouseScrollHandler;
-
         for (var i = 0; i < domSlidItems.length; i++) {
           (function() {
             var domItem = domSlidItems[i];
             var timeout = -1;
             domItem.onscroll = function(e) {
-              // console.log('scroll', e);
               that.contentScrolling = true;
               timeout = clearTimeout(timeout);
               timeout = setTimeout(function() {
                 that.contentScrolling = false;
-              }, 1000);
+              }, that.opts.scrollSensitivity);
             };
           })();
         }
@@ -153,14 +150,11 @@
           if (isInnerContentScrolling(diff)) {
             return;
           }
-          scrollTimeout = clearTimeout(scrollTimeout);
-          scrollTimeout = setTimeout(function() { // scrollTimeout避免重复调用
-            if (diff < -10) {
-              that.slideNext();
-            } else if (diff > 10) {
-              that.slidePrev();
-            }
-          }, 50);
+          if (diff < -10) {
+            that.slideNext();
+          } else if (diff > 10) {
+            that.slidePrev();
+          }
         };
         document.ontouchend = function(e) {
           startY = -1;
@@ -184,8 +178,8 @@
       } else {
         dom.style.top = 0;
         dom.style.opacity = 1;
+        dom.scrollTop = 0;
       }
-      dom.scrollTop = 0;
     },
 
     adapt: function() {
@@ -220,6 +214,9 @@
     },
 
     slideNext: function() {
+      if (this.sliding || this.contentScrolling) {
+        return;
+      }
       var that = this;
       var activeIndex = this.activeIndex;
       var domSlidItems = this.domSlidItems;
@@ -233,12 +230,13 @@
         }
       }
       // console.log('next');
-      setTimeout(function() {
-        that.slideTo(targetIndex);
-      }, 10); // 延时执行，便于slideTo检测到contentScrolling
+      that.slideTo(targetIndex);
     },
 
     slidePrev: function() {
+      if (this.sliding || this.contentScrolling) {
+        return;
+      }
       var that = this;
       var activeIndex = this.activeIndex;
       var domSlidItems = this.domSlidItems;
@@ -252,9 +250,7 @@
         }
       }
       // console.log('prev');
-      setTimeout(function() {
-        that.slideTo(targetIndex);
-      }, 10); // 延时执行，便于slideTo检测到contentScrolling
+      that.slideTo(targetIndex);
     },
 
     slideTo: function(index) {
@@ -273,7 +269,6 @@
         opts.afterSlide(prevIndex, index);
       }, opts.transitionDuration + 100);
       var domSlidItems = this.domSlidItems;
-      var innerHeight = opts.height || window.innerHeight;
       // console.log('to: ', index);
       for (var i = 0; i < domSlidItems.length; i++) {
         var domItem = domSlidItems[i];
