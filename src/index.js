@@ -111,6 +111,7 @@
           if (isInnerContentScrolling(wheelDelta)) {
             return;
           }
+          // console.log('++++', wheelDelta);
           if (wheelDelta < 0) {
             that.slideNext();
           } else if (wheelDelta > 0) {
@@ -216,6 +217,7 @@
     },
 
     slideNext: function() {
+      // console.log('***', this.sliding);
       if (this.sliding || this.contentScrolling) {
         return;
       }
@@ -269,7 +271,7 @@
       setTimeout(function() {
         that.sliding = false;
         opts.afterSlide(prevIndex, index);
-      }, opts.transitionDuration + 100);
+      }, opts.transitionDuration + 500);
       var domSlidItems = this.domSlidItems;
       // console.log('to: ', index);
       for (var i = 0; i < domSlidItems.length; i++) {
